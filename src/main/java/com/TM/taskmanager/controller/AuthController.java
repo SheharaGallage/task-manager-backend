@@ -1,5 +1,9 @@
 package com.TM.taskmanager.controller;
 
+import com.TM.taskmanager.dto.AuthenticateRequest;
+import com.TM.taskmanager.dto.AuthenticationResponse;
+import com.TM.taskmanager.dto.RegisterRequest;
+import com.TM.taskmanager.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 
 public class AuthController {
+
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(

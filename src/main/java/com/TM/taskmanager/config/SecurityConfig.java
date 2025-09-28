@@ -26,6 +26,7 @@ public class SecurityConfig {
                 // cookies/sessions)
                 .csrf(csrf -> csrf.disable())
                 // 2. Tell Spring Security not to create sessions; every request must have a JWT
+                //This tells Spring Security not to create or use HTTP sessions.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 3. Authorization rules:
                 .authorizeHttpRequests(auth -> auth

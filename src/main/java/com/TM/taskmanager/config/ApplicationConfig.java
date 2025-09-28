@@ -28,6 +28,9 @@ public class ApplicationConfig {
 
     // Component that actually performs authentication (check username, check
     // password).
+    // data acceess object which is responsible for fetch user details and also
+    // decodes password s
+    // came from spring framework package
     @Bean
     public AuthenticationProvider authenticationProvider() {
 
@@ -52,9 +55,14 @@ public class ApplicationConfig {
         return config.getAuthenticationManager();
     }
 
-    // secure hashing of passwords
+    // when User registers PasswordEncoder encodes (hashed) the password and saving
+    // to DB.
+    // when User logs in → PasswordEncoder encodes the provided password and
+    // compares it with the stored one.
     @Bean
-    private PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
+
+        // BCryptPasswordEncoder → Most commonly used, adaptive hashing, secure.
         return new BCryptPasswordEncoder();
 
     }
