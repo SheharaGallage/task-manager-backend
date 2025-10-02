@@ -1,42 +1,43 @@
 package com.TM.taskmanager.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tasks")
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id", updatable = false , nullable = false)
+    private int id;
 
-    @Column(nullable = false)
-    private String title;
+    @Column(name = "title" , nullable = false)
+    private  String title;
 
+    @Column(name = "description", nullable = true)
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status status;   // TO_DO, DONE
+    @Column(name = "due_date")
+    private LocalDateTime dueDate;
 
-    private LocalDate dueDate;
-    private LocalDateTime createdAt;
+    @Column(name = "status" , nullable = false)
+    private TaskStatus status;
 
-    // 👇 This creates the user_id column in tasks table
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "priority", nullable = false)
+    private TaskPriority priority;
 
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-        if (status == null) status = Status.TO_DO;
-    }
+    @Column(name = "created", nullable = false)
+    private LocalDateTime created;
+
+    @Column(name = "updated", nullable = false)
+    private LocalDateTime updated;
 }
