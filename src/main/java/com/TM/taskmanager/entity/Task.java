@@ -15,19 +15,36 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "description")
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status status;   // TO_DO, DONE
+    @Column(name = "status", nullable = false)
+    private Status status; // TO_DO, DONE
 
-    private LocalDate dueDate;
-    private LocalDateTime createdAt;
+    @Column(name = "due_date")
+    private LocalDateTime dueDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority", nullable = false)
+    private TaskPriority priority;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    // forien key column name in tasks table is task_list_id
+    @JoinColumn(name = "task_list_id")
+    private TaskList taskList;
+
+    @Column(name = "created", nullable = false)
+    private LocalDateTime created;
+
+    @Column(name = "updated", nullable = false)
+    private LocalDateTime updated;
 
     // 👇 This creates the user_id column in tasks table
     @ManyToOne
@@ -37,6 +54,7 @@ public class Task {
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
-        if (status == null) status = Status.TO_DO;
+        if (status == null)
+            status = Status.TO_DO;
     }
 }
