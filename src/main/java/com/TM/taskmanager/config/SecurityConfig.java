@@ -19,16 +19,17 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    // SecurityConfig.securityFilterChain()
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. Disable CSRF because you're building a stateless REST API (no
-                // cookies/sessions)
+                
+                // 1. Disable CSRF (not needed for stateless JWT)
                 .csrf(csrf -> csrf.disable())
-                // 2. Tell Spring Security not to create sessions; every request must have a JWT
+              
                 //This tells Spring Security not to create or use HTTP sessions.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // 3. Authorization rules:
+                // 3.Define  Authorization rules:
                 .authorizeHttpRequests(auth -> auth
                         // Allow anyone to access endpoints under /api/v1/auth/** (like login, register)
                         .requestMatchers("/api/v1/auth/**").permitAll()
